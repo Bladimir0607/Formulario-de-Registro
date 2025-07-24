@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <!-- Meta viewport para que la página sea responsiva en móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Registro</title>
+    <style>
+        /* Estilo general del body: fuente, centrado y fondo degradado */
+        body {
+            font-family: Arial, sans-serif;
+            /* Flexbox para centrar vertical y horizontalmente */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Ocupa toda la altura de la pantalla */
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            margin: 0; /* Elimina márgenes predeterminados */
+            padding: 10px; /* Espacio para que no quede pegado en móviles */
+            box-sizing: border-box; /* Para manejar bien tamaños con padding */
+        }
+        /* Contenedor del formulario */
+        .container {
+            background: white; /* Fondo blanco para contraste */
+            padding: 30px; /* Espacio interno */
+            border-radius: 10px; /* Bordes redondeados */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sombra para profundidad */
+            text-align: center; /* Texto centrado */
+            width: 300px; /* Ancho fijo para pantallas grandes */
+            max-width: 100%; /* Máximo ancho igual al ancho de la pantalla (responsive) */
+        }
+        /* Estilo del logo */
+        .container img {
+            width: 100px; /* Tamaño fijo para el logo */
+            margin-bottom: 10px; /* Separación debajo de la imagen */
+            border-radius: 10px; /* Bordes redondeados para la imagen */
+        }
+        /* Título */
+        .container h2 {
+            margin-bottom: 15px; /* Espacio debajo */
+            color: #333; /* Color oscuro para buena legibilidad */
+        }
+        /* Estilo general para los inputs */
+        input {
+            display: block; /* Ocupa toda la línea */
+            width: 100%; /* Ancho completo del contenedor */
+            margin: 10px 0; /* Espacio arriba y abajo */
+            padding: 12px; /* Espacio interno para comodidad al escribir */
+            border: 1px solid #ccc; /* Borde gris claro */
+            border-radius: 5px; /* Bordes ligeramente redondeados */
+            font-size: 16px; /* Tamaño de texto legible */
+            box-sizing: border-box; /* Padding dentro del ancho */
+        }
+        /* Estilo del botón */
+        button {
+            background: #28a745; /* Color verde */
+            color: white; /* Texto blanco */
+            border: none; /* Sin borde */
+            padding: 12px 15px; /* Espacio interno */
+            cursor: pointer; /* Cambio de cursor al pasar el mouse */
+            border-radius: 5px; /* Bordes redondeados */
+            font-size: 16px; /* Texto legible */
+            transition: 0.3s; /* Suaviza cambios de estilo */
+            width: 100%; /* Botón ocupa todo el ancho */
+            box-sizing: border-box; /* Padding dentro del ancho */
+        }
+        /* Efecto hover para botón */
+        button:hover {
+            background: #218838; /* Verde más oscuro */
+        }
+        /* Mensaje de error o éxito */
+        #mensaje {
+            margin-top: 10px; /* Espacio arriba */
+            font-weight: bold; /* Texto en negrita para destacar */
+        }
+
+        /* Media query para pantallas muy pequeñas (menos de 320px ancho) */
+        @media (max-width: 320px) {
+            .container {
+                padding: 20px 15px; /* Menos padding para mejor ajuste */
+                width: 100%; /* Ocupa todo el ancho */
+            }
+            .container img {
+                width: 80px; /* Logo más pequeño para caber */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Logo de la página -->
+        <img src="Img/Logo.png" alt="Logo de la página">
+        <!-- Título del formulario -->
+        <h2>Registro</h2>
+        <!-- Formulario de registro con id para manipular con JavaScript -->
+        <form id="registroForm">
+            <!-- Input para nombre completo, obligatorio -->
+            <input type="text" id="nombre" placeholder="Nombre Completo" required>
+            <!-- Input para correo electrónico, tipo email para validación básica -->
+            <input type="email" id="correo" placeholder="Correo Electrónico" required>
+            <!-- Input para edad, tipo number -->
+            <input type="number" id="edad" placeholder="Edad" required>
+            <!-- Botón para enviar el formulario -->
+            <button type="submit">Registrarse</button>
+        </form>
+        <!-- Elemento para mostrar mensajes de validación -->
+        <p id="mensaje"></p>
+    </div>
+
+    <script>
+        // Escucha el evento submit del formulario para validar antes de enviar
+        document.getElementById('registroForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita que el formulario se envíe automáticamente
+
+            // Obtiene y limpia valores de los inputs (quita espacios)
+            let nombre = document.getElementById('nombre').value.trim();
+            let correo = document.getElementById('correo').value.trim();
+            let edad = document.getElementById('edad').value.trim();
+            let mensaje = document.getElementById('mensaje');
+
+            let errores = []; // Arreglo para almacenar mensajes de error
+
+            // Validar que el nombre no esté vacío
+            if (nombre === "") {
+                errores.push("El nombre es obligatorio.");
+            }
+
+            // Validar que el correo tenga formato válido con expresión regular
+            let regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!regexCorreo.test(correo)) {
+                errores.push("El correo electrónico no es válido.");
+            }
+
+            // Validar que la edad sea un número positivo y no vacío
+            if (edad === "" || isNaN(edad) || parseInt(edad) <= 0) {
+                errores.push("La edad debe ser un número positivo.");
+            }
+
+            if (errores.length > 0) {
+                // Si hay errores, mostrar en rojo y listarlos con salto de línea
+                mensaje.style.color = 'red';
+                mensaje.innerHTML = errores.join("<br>");
+            } else {
+                // Si no hay errores, mensaje de éxito en verde
+                mensaje.style.color = 'green';
+                mensaje.innerHTML = "¡Registro exitoso!";
+                // Opcional: aquí puedes limpiar el formulario con this.reset();
+            }
+        });
+    </script>
+
+</body>
+</html>
