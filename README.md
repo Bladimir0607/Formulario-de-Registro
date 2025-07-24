@@ -1,2 +1,2 @@
 # Formulario-de-Registro
-Formulario de Registro Interactivo
+Formulario de Registro Interactivo. Desarrollado por Bladimir Ventura
